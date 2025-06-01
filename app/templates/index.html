@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animals List</title>
+    <style>
+        table {
+            width: 50%;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px 12px;
+            text-align: center;
+        }
+        h1 {
+            text-align: center;
+        }
+        .btn {
+            display: block;
+            width: 200px;
+            padding: 10px;
+            margin: 20px auto;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Animals List</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Species</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for animal in animals %}
+        <tr>
+            <td>{{ animal.id }}</td>
+            <td>{{ animal.name }}</td>
+            <td>{{ animal.species }}</td>
+            <td>
+                <form action="/delete/{{ animal.id }}" method="POST" style="margin: 0;">
+                    <button type="submit" class="btn" style="background-color: red;">Delete</button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
+
+    </table>
+
+    <a href="/add_animal" class="btn">Add New Animal</a>
+
+</body>
+</html>
