@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres
+    container_name: microblog-db
+    restart: always
+    environment:
+      POSTGRES_USER: meirlan
+      POSTGRES_PASSWORD: meirlan
+      POSTGRES_DB: db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - microblog-net
+
+  
+  microblog:
+    image: microblog
+    restart: no
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: microblog-db
+      DB_PORT: 5432
+      DB_USER: meirlan
+      DB_PASSWORD: meirlan
+      DB_NAME: db
+    networks:
+      - microblog-net
+
+
+volumes:
+  pgdata:
+
+networks:
+  microblog-net:
+    driver: bridge
