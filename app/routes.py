@@ -7,7 +7,7 @@ bp = Blueprint('main', __name__)
 
 @bp.route('/')
 def index():
-    animals = Animal.query.all()
+    animals = Animal.query.limit(10).all()
     return render_template('index.html', animals=animals)
 
 @bp.route('/add_animal', methods=['GET', 'POST'])
@@ -27,3 +27,10 @@ def delete_animal(id):
     db.session.delete(animal)
     db.session.commit()
     return redirect(url_for('main.index'))
+
+
+@bp.route('/<int:code>')
+def error_simulator(code):
+    if code in [400, 403, 404, 409, 500]:
+        abort(code)
+    return f"Unsupported code: {code}", 400
