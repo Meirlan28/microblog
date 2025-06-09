@@ -1,7 +1,8 @@
 #routes.py
-from flask import Blueprint, request, jsonify, render_template, redirect, url_for
+from flask import Blueprint, request, jsonify, render_template, redirect, url_for, abort
 from app import db
 from app.models import Animal
+import time
 
 bp = Blueprint('main', __name__)
 
@@ -29,8 +30,12 @@ def delete_animal(id):
     return redirect(url_for('main.index'))
 
 
-@bp.route('/<int:code>')
+@bp.route('/status/<int:code>')
 def error_simulator(code):
+    seconds_sleep = request.args.get('seconds_sleep', default=0, type=float)
+    if seconds_sleep > 0:
+        time.sleep(seconds_sleep)  # Задержка
+    
     if code in [400, 403, 404, 409, 500]:
         abort(code)
     return f"Unsupported code: {code}", 400
